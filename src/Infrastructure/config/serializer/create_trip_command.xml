@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="App\Application\Command\CreateTrip\CreateTripCommand">
+        <attribute name="name">
+            <group>write</group>
+        </attribute>
+
+        <attribute name="description">
+            <group>write</group>
+        </attribute>
+    </class>
+</serializer>

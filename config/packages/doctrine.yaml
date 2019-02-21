@@ -1,0 +1,36 @@
+parameters:
+    env(DATABASE_URL): ''
+
+doctrine:
+    dbal:
+        driver: 'pdo_pgsql'
+        server_version: 10
+        charset: utf8
+
+        url: '%env(resolve:DATABASE_URL)%'
+        types:
+            datetime_immutable: 'App\Infrastructure\Doctrine\DoctrineExtensions\DBAL\Types\UTCDateTimeImmutableType'
+            uuid:  Ramsey\Uuid\Doctrine\UuidType
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            App\Domain:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Infrastructure/config/doctrine'
+                prefix: 'App\Domain\Model'
+                alias: Domain
+            gedmo_translator:
+                type: xml
+                prefix: Gedmo\Translator\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                alias: GedmoTranslator
+                is_bundle: false
+            gedmo_loggable:
+                type: xml
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                alias: GedmoLoggable
+                is_bundle: false

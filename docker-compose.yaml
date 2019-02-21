@@ -1,0 +1,16 @@
+version: '3.4'
+
+volumes:
+  db-data: {}
+
+services:
+  db:
+      image: postgres:10-alpine
+      environment:
+          - POSTGRES_DB=app-db
+          - POSTGRES_USER=app
+          - POSTGRES_PASSWORD=app
+      volumes:
+          - db-data:/var/lib/postgresql/data:rw
+      ports:
+          - 5432:5432

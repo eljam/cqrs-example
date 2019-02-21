@@ -1,0 +1,8 @@
+frontoffice_route:
+    resource: "../src/Presentation/Web/Frontoffice/Controller"
+    type:     annotation
+    prefix: /
+
+swagger_redoc:
+    path: /docs
+    controller: api_platform.swagger.action.ui

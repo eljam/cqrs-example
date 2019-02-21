@@ -1,0 +1,71 @@
+parameters:
+    locale: 'en'
+
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $queryBus: '@tactician.commandbus.query'
+            $commandBus: '@tactician.commandbus.command'
+            $roomTripItemRepository: '@App\Infrastructure\Repository\RoomTripItemRepository'
+            $accommodationRepository: '@App\Infrastructure\Repository\AccommodationRepository'
+            $flightTripItemRepository: '@App\Infrastructure\Repository\FlightTripItemRepository'
+            $tripRepository: '@App\Infrastructure\Repository\TripRepository'
+            $resourceMetadataFactory: '@api_platform.metadata.resource.metadata_factory.cached'
+            $apiPagination: '@api_platform.pagination'
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Model,Migrations,Tests,Domain,Kernel.php}'
+
+    # Controllers
+    App\Presentation\Web\Backoffice\Controller\:
+        resource: '../src/Presentation/Web/Backoffice/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Presentation\Web\Frontoffice\Controller\:
+        resource: '../src/Presentation/Web/Frontoffice/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Presentation\Api\Rest\Controller\:
+        resource: '../src/Presentation/Api/Rest/Controller'
+        tags: ['controller.service_arguments']
+
+    ApiPlatform\Core\Bridge\RamseyUuid\Identifier\Normalizer\UuidNormalizer:
+        tags:
+            - { name: serializer.normalizer }
+
+    # Handlers
+    _instanceof:
+
+        App\Application\Command\CommandHandlerInterface:
+            public: true
+            tags:
+                - { name: tactician.handler, typehints: true, bus: command }
+
+        App\Application\Query\QueryHandlerInterface:
+            public: true
+            tags:
+                - { name: tactician.handler, typehints: true, bus: query }
+
+        ApiPlatform\Core\DataPersister\DataPersisterInterface:
+            public: true
+            tags:
+                - { name: 'api_platform.data_persister' }
+
+        App\Infrastructure\DataProvider\ApiPlatform\DataProviderInterface:
+            public: true
+            tags:
+                - { name: 'api_platform.collection_data_provider' }
+
+    # Listeners
+    app.listener.log_event:
+        public: true
+        class: App\Infrastructure\EventListener\LogAfterTripWasCreatedListener
+        arguments:
+            - '@monolog.logger'
+        tags:
+            - { name: tactician.event_listener, event: App\Domain\Event\TripWasCreatedEvent }

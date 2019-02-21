@@ -1,0 +1,47 @@
+framework:
+    workflows:
+        booking_workflow:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'bookingState'
+            supports:
+                - App\Domain\Model\TripItem
+            initial_place: pending
+            places:
+                - pending
+                - confirmed
+                - reviewed
+                - purchased
+                - invoiced
+                - fulfilled
+                - cancelled
+                - refunded
+            transitions:
+                do_confirm:
+                    from: pending
+                    to: confirmed
+                mark_invalid:
+                    from: confirmed
+                    to: pending
+                mark_valid:
+                    from: confirmed
+                    to: reviewed
+                do_purchase:
+                    from: [confirmed, reviewed]
+                    to: purchased
+                do_invoice:
+                    from: purchased
+                    to: invoiced
+                do_fulfill:
+                    from: invoiced
+                    to: fulfilled
+                do_refund:
+                    from: [invoiced, fulfilled]
+                    to: refunded
+                do_cancel:
+                    from: [confirmed, reviewed, purchased, invoiced]
+                    to: cancelled

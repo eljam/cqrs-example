@@ -1,0 +1,14 @@
+# Library documentation: http://tactician.thephpleague.com/
+# Bundle documentation: https://github.com/thephpleague/tactician-bundle/blob/v1.0/README.md
+tactician:
+    default_bus: command
+    method_inflector: tactician.handler.method_name_inflector.invoke
+    commandbus:
+        command:
+            middleware:
+                - tactician.middleware.validator
+                - tactician_domain_events.middleware.release_recorded_events
+                - tactician.middleware.command_handler
+        query:
+            middleware:
+                - tactician.commandbus.query.middleware.command_handler

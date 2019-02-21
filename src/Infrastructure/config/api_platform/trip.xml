@@ -1,0 +1,43 @@
+<resources xmlns="https://api-platform.com/schema/metadata"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://api-platform.com/schema/metadata
+           https://api-platform.com/schema/metadata/metadata-2.0.xsd">
+
+    <resource class="App\Application\Query\Projection\TripView" shortName="Trip">
+
+        <property identifier="true" name="id" />
+
+        <attribute name="input_class">App\Application\Command\CreateTrip\CreateTripCommand</attribute>
+        <attribute name="output_class">App\Application\Query\Projection\TripView</attribute>
+
+        <collectionOperations>
+            <collectionOperation name="get">
+                <attribute name="method">GET</attribute>
+                <attribute name="path">/trips</attribute>
+            </collectionOperation>
+        </collectionOperations>
+
+        <itemOperations>
+            <itemOperation name="get">
+                <attribute name="method">GET</attribute>
+                <attribute name="path">/trips/{id}</attribute>
+            </itemOperation>
+        </itemOperations>
+    </resource>
+
+    <resource class="App\Application\Command\CreateTrip\CreateTripCommand" shortName="Trip">
+        <collectionOperations>
+            <collectionOperation name="post">
+                <attribute name="method">POST</attribute>
+                <attribute name="path">/trips</attribute>
+                <attribute name="denormalization_context">
+                    <attribute name="groups">
+                        <attribute>write</attribute>
+                    </attribute>
+                </attribute>
+            </collectionOperation>
+        </collectionOperations>
+        <itemOperations></itemOperations>
+        <attribute name="output_class">false</attribute>
+    </resource>
+</resources>

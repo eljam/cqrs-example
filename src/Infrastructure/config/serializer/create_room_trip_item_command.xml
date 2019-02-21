@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="App\Application\Command\CreateRoomTripItem\CreateRoomTripItemCommand">
+        <attribute name="tripId">
+            <group>write</group>
+        </attribute>
+
+        <attribute name="accommodationId">
+            <group>write</group>
+        </attribute>
+
+        <attribute name="adults">
+            <group>write</group>
+        </attribute>
+
+        <attribute name="children">
+            <group>write</group>
+        </attribute>
+
+        <attribute name="paxList">
+            <group>write</group>
+        </attribute>
+
+        <attribute name="cost">
+            <group>write</group>
+        </attribute>
+    </class>
+</serializer>

@@ -1,0 +1,19 @@
+api_platform:
+    title: 'CQRS API'
+    description: 'CQRS API for app'
+    version: '0.1.0'
+    enable_entrypoint: true
+    enable_docs: true
+    enable_swagger_ui: false
+
+    doctrine:
+        enabled: false
+
+    mapping:
+        paths: ['%kernel.project_dir%/src/Infrastructure/config/api_platform']
+    formats:
+        json: ['application/json']
+    exception_to_status:
+        App\Domain\Shared\Query\NotFoundException: 404
+        App\Domain\Shared\Common\NotFoundException: 400
+        League\Tactician\Bundle\Middleware\InvalidCommandException: 400
